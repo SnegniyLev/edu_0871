@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class Server {
     static ArrayList<Socket> clients = new ArrayList<>();
-    static ArrayList<Socket> name = new ArrayList<>();
     public static void main(String[] args) {
         Socket socket = null;
         try {
@@ -22,7 +21,6 @@ public class Server {
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                 out.writeUTF("Ваше имя?");
                 String name = in.readUTF();
-                UserName(name);
                 System.out.println("Подключился клиент "+name);
                 Thread thread = new Thread(new Runnable() {
                     @Override
@@ -30,7 +28,7 @@ public class Server {
                         try {
                             while (true){
                                 String str = in.readUTF();
-                                broadcastMsg(str);
+                                broadcastMsg(name+": "+str);
                                 System.out.println(name+": "+str);
                             }
                         }catch (IOException e){
@@ -49,14 +47,7 @@ public class Server {
         DataOutputStream out;
         for (Socket socket : clients){
                 out = new DataOutputStream(socket.getOutputStream());
-                out.writeUTF(name + ": " + str);
-        }
-    }
-    public static void UserName(String str) throws IOException{
-        DataInputStream input;
-        for (Socket socket : name){
-            input = new DataInputStream(socket.getInputStream());
-            name.add(socket);
+                out.writeUTF(str);
         }
     }
 }
