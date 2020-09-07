@@ -50,7 +50,8 @@ public class Controller {
                         String response = null;
                         try {
                             response = in.readUTF();
-                            String[] responseArray = response.split("]##");
+                            String response2 = response.substring(1);
+                            String[] responseArray = response2.split("]##");
                             messageWindow.appendText("\n"+responseArray[1]);
                             userList.clear();
                             String[] Array = responseArray[0].split(", ");
